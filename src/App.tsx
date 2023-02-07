@@ -1,13 +1,14 @@
+import { Flex } from "@mantine/core";
 import "./App.css";
 import MainContainer from "./components/MainContainer/MainContainer";
 import SideBar from "./components/SideBar/SideBar";
 
 function App() {
 	return (
-		<div className="App">
+		<Flex gap={0}>
 			<SideBar />
 			<MainContainer />
-		</div>
+		</Flex>
 	);
 }
 
