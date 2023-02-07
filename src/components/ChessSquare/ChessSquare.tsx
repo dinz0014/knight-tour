@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as KnightSVG } from "../../assets/portablejim-Chess-tile-Knight-2.svg";
+import KnightPiece from "../KnightPiece/KnightPiece";
 
 interface ChessSquareProps {
 	sqrRow: number;
@@ -9,16 +9,22 @@ interface ChessSquareProps {
 
 const ChessSquare = (props: ChessSquareProps) => {
 	return (
-		<div
-			style={{
-				backgroundColor:
-					(props.sqrRow + props.sqrCol) % 2 === 1 ? "black" : "white",
-				width: 85,
-				height: 85,
-			}}
-		>
-			{props.containsKnight ? <KnightSVG /> : null}
-		</div>
+		<>
+			<div
+				style={{
+					backgroundColor:
+						(props.sqrRow + props.sqrCol) % 2 === 1
+							? "black"
+							: "white",
+					width: 110,
+					height: 110,
+				}}
+			>
+				{props.containsKnight ? (
+					<KnightPiece row={props.sqrRow} col={props.sqrCol} />
+				) : null}
+			</div>
+		</>
 	);
 };
 
