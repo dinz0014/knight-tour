@@ -1,7 +1,13 @@
+import { Center } from "@mantine/core";
 import React from "react";
+import ChessBoard from "../ChessBoard/ChessBoard";
 
 const MainContainer = () => {
-	return <div className="button-bar">MainContainer</div>;
+	return (
+		<Center>
+			<ChessBoard />
+		</Center>
+	);
 };
 
 export default MainContainer;
