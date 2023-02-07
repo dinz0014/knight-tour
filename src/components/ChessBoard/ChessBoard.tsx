@@ -15,7 +15,7 @@ const ChessBoard = () => {
 	});
 
 	return (
-		<SimpleGrid cols={8} spacing={0} ref={ref}>
+		<SimpleGrid cols={8} spacing={0}>
 			{board.flat().map((square, i) => {
 				return (
 					<ChessSquare
