@@ -4,22 +4,29 @@ import ChessSquare from "../ChessSquare/ChessSquare";
 
 const ChessBoard = () => {
 	const [board, setBoard] = useState(() => {
-		let arr = Array(64).fill(0);
-		arr[0] = 1;
+		const arr = [];
+
+		for (let i = 0; i < 8; i++) {
+			arr.push(Array(8).fill(0));
+		}
+
+		arr[0][0] = 1;
 		return arr;
 	});
 
 	return (
-		<SimpleGrid cols={8} spacing={0}>
-			{board.map((el, i) => {
+		<SimpleGrid cols={8} spacing={0} ref={ref}>
+			{board.flat().map((square, i) => {
 				return (
 					<ChessSquare
+						key={i}
 						sqrRow={Math.floor(i / 8)}
 						sqrCol={i % 8}
-						containsKnight={el === 1}
-					></ChessSquare>
+						containsKnight={square === 1}
+					/>
 				);
 			})}
+			;
 		</SimpleGrid>
 	);
 };
