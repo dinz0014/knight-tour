@@ -2,7 +2,7 @@ import { Stack, Text, Title } from "@mantine/core";
 import React from "react";
 import ButtonBar from "../ButtonBar/ButtonBar";
 
-const SideBar = () => {
+const SideBar = (): JSX.Element => {
 	return (
 		<Stack>
 			<Title>Knight's Tour</Title>
