@@ -1,8 +1,10 @@
 import React from "react";
+import { ReactComponent as KnightSVG } from "../../assets/portablejim-Chess-tile-Knight-2.svg";
 
 interface ChessSquareProps {
 	sqrRow: number;
 	sqrCol: number;
+	containsKnight: boolean;
 }
 
 const ChessSquare = (props: ChessSquareProps) => {
@@ -14,7 +16,9 @@ const ChessSquare = (props: ChessSquareProps) => {
 				width: 85,
 				height: 85,
 			}}
-		></div>
+		>
+			{props.containsKnight ? <KnightSVG /> : null}
+		</div>
 	);
 };
 
