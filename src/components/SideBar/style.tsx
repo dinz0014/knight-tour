@@ -3,7 +3,8 @@ import { createStyles } from "@mantine/core";
 const useStyles = createStyles((theme) => ({
 	root: {
 		justifyContent: "space-between",
-		padding: theme.spacing["md"],
+		alignItems: "center",
+		padding: 10,
 		flex: 1,
 		borderRight: `1px solid ${theme.colors.backdropColor[theme.fn.primaryShade() - 1]}`,
 	},
