@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { getRowColFromString, getStringFromRowCol } from "../../api/algebraNotation";
 import { checkValidMove } from "../../api/knightsTour";
 import ChessSquare from "../ChessSquare/ChessSquare";
+import useStyles from "./style";
 import { ChessBoardProps } from "./types";
 
 const ChessBoard = (props: ChessBoardProps) => {
@@ -53,8 +54,17 @@ const ChessBoard = (props: ChessBoardProps) => {
 		handlers.open();
 	};
 
+	const { classes } = useStyles(props);
+
 	return (
+		<SimpleGrid
 			cols={props.boardSize}
+			spacing={0}
+			verticalSpacing={0}
+			ref={ref}
+			onClick={handleGridClick}
+			className={classes.root}
+		>
 			{board.flat().map((square, i) => {
 				return (
 					<ChessSquare
