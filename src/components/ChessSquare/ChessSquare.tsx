@@ -1,30 +1,14 @@
 import React from "react";
 import KnightPiece from "../KnightPiece/KnightPiece";
-
-interface ChessSquareProps {
-	sqrRow: number;
-	sqrCol: number;
-	containsKnight: boolean;
-}
+import useStyles from "./style";
+import { ChessSquareProps } from "./types";
 
 const ChessSquare = (props: ChessSquareProps) => {
+	const { classes } = useStyles(props);
 	return (
-		<>
-			<div
-				style={{
-					backgroundColor:
-						(props.sqrRow + props.sqrCol) % 2 === 1
-							? "black"
-							: "white",
-					width: 110,
-					height: 110,
-				}}
-			>
-				{props.containsKnight ? (
-					<KnightPiece row={props.sqrRow} col={props.sqrCol} />
-				) : null}
-			</div>
-		</>
+		<div className={classes.root}>
+			{props.containsKnight ? <KnightPiece size={props.sqrSize}></KnightPiece> : null}
+		</div>
 	);
 };
 
