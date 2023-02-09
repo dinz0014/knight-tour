@@ -2,20 +2,17 @@ import { Center, Image } from "@mantine/core";
 import { DragPreviewImage, useDrag } from "react-dnd";
 
 interface knightProps {
-	row: number;
-	col: number;
+	size: number;
 }
 
-const KnightPiece = ({ row, col }: knightProps) => {
+const KnightPiece = ({ size }: knightProps) => {
+	const scaling = 0.7;
 	return (
 		<>
-			<Center
-				className="knight-piece-container"
-				style={{ width: 110, height: 110 }}
-			>
+			<Center className="knight-piece-container" style={{ width: size, height: size }}>
 				<Image
 					src={"/n_w.png"}
-					style={{ width: 80, height: 80 }}
+					style={{ width: size * scaling, height: size * scaling }}
 					className="knight-piece"
 				></Image>
 			</Center>
