@@ -1,12 +1,11 @@
 import { Flex, useMantineTheme } from "@mantine/core";
-import { useViewportSize } from "@mantine/hooks";
 import MainContainer from "./components/MainContainer/MainContainer";
 import SideBar from "./components/SideBar/SideBar";
 import { CustomFonts } from "./fonts/CustomFonts";
 
 function App() {
-	const { width, height } = useViewportSize();
 	const theme = useMantineTheme();
+	console.log(theme.colors.backdropColor[theme.fn.primaryShade()]);
 
 	return (
 		<>
@@ -15,8 +14,8 @@ function App() {
 				gap={0}
 				style={{
 					backgroundColor: theme.colors.backdropColor[theme.fn.primaryShade()],
-					width: `${width}px`,
-					height: `${height}px`,
+					width: "100vw",
+					minHeight: "100vh",
 				}}
 			>
 				<SideBar />
