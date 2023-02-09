@@ -4,18 +4,21 @@ import React, { useMemo, useState } from "react";
 import { getRowColFromString, getStringFromRowCol } from "../../api/algebraNotation";
 import { checkValidMove } from "../../api/knightsTour";
 import ChessSquare from "../ChessSquare/ChessSquare";
+import { ChessBoardProps } from "./types";
 
-const ChessBoard = () => {
+const ChessBoard = (props: ChessBoardProps) => {
 	// Memoise the initial board state
 	const initialBoard: number[][] = useMemo(() => {
-		const board = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => 0));
+		const board = Array.from({ length: props.boardSize }, () =>
+			Array.from({ length: props.boardSize }, () => 0)
+		);
 		board[0][0] = -1;
 		return board;
 	}, []);
 
 	// State variables
 	const [board, setBoard] = useState<number[][]>(initialBoard);
-	const [knightLocation, setKnightLocation] = useState<string>("a8");
+	const [knightLocation, setKnightLocation] = useState<string>("a" + props.boardSize);
 	const [knightSelected, handlers] = useDisclosure(false);
 
 	// Memoise the current knight position
@@ -23,10 +26,11 @@ const ChessBoard = () => {
 
 	// Get coordinates of mouse position within the ref element
 	const { ref, x, y } = useMouse();
+	const sqrSize = props.maxSize / props.boardSize;
 
 	const handleGridClick: React.MouseEventHandler<HTMLDivElement> = () => {
-		const col = Math.floor(x / 110);
-		const row = Math.floor(y / 110);
+		const col = Math.floor(x / sqrSize);
+		const row = Math.floor(y / sqrSize);
 
 		if (knightSelected) {
 			if (checkValidMove({ board, from: knightPosition, to: [row, col] })) {
@@ -50,15 +54,17 @@ const ChessBoard = () => {
 	};
 
 	return (
-		<SimpleGrid cols={8} spacing={0} ref={ref} onClick={handleGridClick}>
+			cols={props.boardSize}
 			{board.flat().map((square, i) => {
 				return (
 					<ChessSquare
 						key={i}
-						sqrRow={Math.floor(i / 8)}
-						sqrCol={i % 8}
+						sqrRow={Math.floor(i / props.boardSize)}
+						sqrCol={i % props.boardSize}
+						sqrSize={sqrSize}
 						containsKnight={
-							Math.floor(i / 8) === knightPosition[0] && i % 8 === knightPosition[1]
+							Math.floor(i / props.boardSize) === knightPosition[0] &&
+							i % props.boardSize === knightPosition[1]
 						}
 					/>
 				);
