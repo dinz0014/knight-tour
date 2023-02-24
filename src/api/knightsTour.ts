@@ -59,6 +59,13 @@ export function checkValidMove({board, from, to} : CheckValidMoveArgs) : boolean
     return isMoveValid && isToValid;
 }
 
+/**
+ * Function to solve the knight's tour problem for this starting position.
+ *
+ * @export
+ * @param {GetKnightTourArgs} {knightPosition, board} - The starting position for the knight and the current state of the board
+ * @return {*}  {number[][]} - A representation of the board, with its cells numbered from 1 to 64 to indicate the solution.
+ */
 export function getKnightTour({knightPosition, boardSize}: GetKnightTourArgs) : number[][]{
     const [krStart, kcStart] = knightPosition;
 
