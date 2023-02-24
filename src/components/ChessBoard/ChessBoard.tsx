@@ -13,7 +13,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 		const board = Array.from({ length: props.boardSize }, () =>
 			Array.from({ length: props.boardSize }, () => 0)
 		);
-		board[0][0] = -1;
+		board[0][0] = 1;
 		return board;
 	}, []);
 
