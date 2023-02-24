@@ -20,7 +20,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 	// State variables
 	const [board, setBoard] = useState<number[][]>(initialBoard);
 	const [knightLocation, setKnightLocation] = useState<string>("a" + props.boardSize);
-	const [knightSelected, handlers] = useDisclosure(false);
+	const [knightSelected, setKnightSelected] = useState<boolean>(false);
 
 	// Memoise the current knight position
 	const knightPosition = useMemo(() => getRowColFromString(knightLocation), [knightLocation]);
