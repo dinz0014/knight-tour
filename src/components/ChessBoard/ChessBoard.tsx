@@ -35,6 +35,9 @@ const ChessBoard = (props: ChessBoardProps) => {
 		const [kr, kc] = knightPosition;
 
 		if (knightSelected) {
+			// Allows user to click on the knight multiple times without encountering warnings.
+			if (kr == row && kc === col) return;
+
 			if (checkValidMove({ board, from: knightPosition, to: [row, col] })) {
 				const newBoard = [...board];
 
