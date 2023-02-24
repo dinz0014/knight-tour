@@ -9,6 +9,11 @@ const useStyles = createStyles((theme, { sqrRow, sqrCol, sqrSize }: ChessSquareP
 				: theme.colors.skyBlue[2],
 		width: sqrSize,
 		height: sqrSize,
+		transition: "all 0.1s ease-in",
+	},
+
+	selected: {
+		backgroundColor: theme.colors.yellowGold[2],
 	},
 }));
 
