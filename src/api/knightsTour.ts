@@ -9,7 +9,10 @@ interface CheckValidMoveArgs {
     to: [number, number];
 }
 
-export function getValidMoves({board, knightPosition} : GetValidMovesArgs): [number, number][] {
+interface GetKnightTourArgs {
+    knightPosition: [number, number];
+    boardSize: number;
+}
     const directions = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]];
 
 /**
