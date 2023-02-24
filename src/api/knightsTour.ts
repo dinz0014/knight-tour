@@ -12,6 +12,15 @@ interface CheckValidMoveArgs {
 export function getValidMoves({board, knightPosition} : GetValidMovesArgs): [number, number][] {
     const directions = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]];
 
+/**
+ * Function to get the valid moves for the knight from its current position
+ *
+ * @export
+ * @param {GetValidMovesArgs} {board, knightPosition} - The current state of the board and the position of the knight
+ * @return {*}  {[number, number][]} - A list of valid moves
+ */
+export function getValidMoves({board, knightPosition} : GetValidMovesArgs): [number, number][] {
+    
     const validMoves : [number, number][] = [];
     const [kr, kc] = knightPosition;
 
@@ -26,6 +35,13 @@ export function getValidMoves({board, knightPosition} : GetValidMovesArgs): [num
     return validMoves;
 }
 
+/**
+ * Function to check if a certain knight move is valid or not
+ *
+ * @export
+ * @param {CheckValidMoveArgs} {board, from, to} - The current state of the chess board, the position moving from, and the position moving to
+ * @return {*}  {boolean} - True if the move is valid, False otherwise
+ */
 export function checkValidMove({board, from, to} : CheckValidMoveArgs) : boolean {
     // Check if the new position is within the bounds of the board and not visited
     const [fr, fc] = from;
