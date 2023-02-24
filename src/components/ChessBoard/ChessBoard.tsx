@@ -73,7 +73,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 			onClick={handleGridClick}
 			className={classes.root}
 		>
-			{board.flat().map((square, i) => {
+			{board.flat().map((_, i) => {
 				return (
 					<ChessSquare
 						key={i}
@@ -84,6 +84,9 @@ const ChessBoard = (props: ChessBoardProps) => {
 							Math.floor(i / props.boardSize) === knightPosition[0] &&
 							i % props.boardSize === knightPosition[1]
 						}
+						knightSelected={knightSelected}
+						makeMove={makeMove}
+						setKnightSelected={setKnightSelected}
 					/>
 				);
 			})}
