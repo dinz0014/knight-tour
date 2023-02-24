@@ -29,19 +29,18 @@ const ChessBoard = (props: ChessBoardProps) => {
 	const { ref, x, y } = useMouse();
 	const sqrSize = props.maxSize / props.boardSize;
 
-	const handleGridClick: React.MouseEventHandler<HTMLDivElement> = () => {
-		const col = Math.floor(x / sqrSize);
-		const row = Math.floor(y / sqrSize);
-
-		if (knightSelected) {
-			if (checkValidMove({ board, from: knightPosition, to: [row, col] })) {
-				const newBoard = [...board];
-				newBoard[row][col] = -1;
-				setBoard(newBoard);
-				setKnightLocation(getStringFromRowCol(row, col));
-			} else {
-				alert("Invalid move");
-			}
+	const makeMove = (r: number, c: number) => {
+		if (checkValidMove({ board, from: knightPosition, to: [r, c] })) {
+			// Make the move if it is valid
+			setKnightLocation(getStringFromRowCol(r, c));
+			const newBoard = [...board];
+			newBoard[r][c] = newBoard[knightPosition[0]][knightPosition[1]] + 1;
+			setBoard(newBoard);
+		} else {
+			// TODO: instead of popping up alerts, could visually indicate (for example, highlighting the clicked square in red)
+			alert("Invalid Move!");
+		}
+	};
 
 			handlers.close();
 			return;
