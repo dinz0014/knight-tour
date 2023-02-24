@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@mantine/core";
 import { useDisclosure, useMouse } from "@mantine/hooks";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { getRowColFromString, getStringFromRowCol } from "../../api/algebraNotation";
 import { checkValidMove } from "../../api/knightsTour";
 import ChessSquare from "../ChessSquare/ChessSquare";
@@ -13,64 +13,65 @@ const ChessBoard = (props: ChessBoardProps) => {
 		const board = Array.from({ length: props.boardSize }, () =>
 			Array.from({ length: props.boardSize }, () => 0)
 		);
-		board[0][0] = -1;
+		board[0][0] = 1;
 		return board;
 	}, []);
 
 	// State variables
 	const [board, setBoard] = useState<number[][]>(initialBoard);
 	const [knightLocation, setKnightLocation] = useState<string>("a" + props.boardSize);
-	const [knightSelected, handlers] = useDisclosure(false);
+	const [knightSelected, setKnightSelected] = useState<boolean>(false);
+
+	const boardRef = useRef<HTMLDivElement>(null);
 
 	// Memoise the current knight position
 	const knightPosition = useMemo(() => getRowColFromString(knightLocation), [knightLocation]);
 
 	// Get coordinates of mouse position within the ref element
-	const { ref, x, y } = useMouse();
 	const sqrSize = props.maxSize / props.boardSize;
 
-	const handleGridClick: React.MouseEventHandler<HTMLDivElement> = () => {
-		const col = Math.floor(x / sqrSize);
-		const row = Math.floor(y / sqrSize);
-		const [kr, kc] = knightPosition;
-
-		if (knightSelected) {
-			// Allows user to click on the knight multiple times without encountering warnings.
-			if (kr == row && kc === col) return;
-
-			if (checkValidMove({ board, from: knightPosition, to: [row, col] })) {
-				const newBoard = [...board];
-
-				newBoard[row][col] = board[kr][kc] + 1;
-				setBoard(newBoard);
-				setKnightLocation(getStringFromRowCol(row, col));
-			} else {
-				alert("Invalid move");
-			}
-
-			handlers.close();
-			return;
+	const makeMove = (r: number, c: number) => {
+		if (checkValidMove({ board, from: knightPosition, to: [r, c] })) {
+			// Make the move if it is valid
+			setKnightLocation(getStringFromRowCol(r, c));
+			const newBoard = [...board];
+			newBoard[r][c] = newBoard[knightPosition[0]][knightPosition[1]] + 1;
+			setBoard(newBoard);
+		} else {
+			// TODO: instead of popping up alerts, could visually indicate (for example, highlighting the clicked square in red)
+			alert("Invalid Move!");
 		}
-
-		if (row !== kr || col !== kc) {
-			return;
-		}
-
-		handlers.open();
 	};
 
 	const { classes } = useStyles(props);
 
+	// Handling clicking outside of the board component
+	useEffect(() => {
+		// Function to handle click events
+		function handleClickOutside(event: MouseEvent) {
+			if (boardRef.current && !boardRef.current.contains(event.target as Node)) {
+				setKnightSelected(false); // Click occurred outside of component, toggle knightSelected
+			}
+		}
+
+		// Add event listener to document object
+		document.addEventListener("click", handleClickOutside);
+
+		// Clean up event listener when component is unmounted
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [boardRef]);
+
 	return (
 		<SimpleGrid
+			ref={boardRef}
 			cols={props.boardSize}
 			spacing={0}
 			verticalSpacing={0}
-			ref={ref}
-			onClick={handleGridClick}
 			className={classes.root}
 		>
-			{board.flat().map((square, i) => {
+			{board.flat().map((_, i) => {
 				return (
 					<ChessSquare
 						key={i}
@@ -82,6 +83,9 @@ const ChessBoard = (props: ChessBoardProps) => {
 							i % props.boardSize === knightPosition[1]
 						}
 						knightSelected={knightSelected}
+						makeMove={makeMove}
+						setKnightSelected={setKnightSelected}
+
 					/>
 				);
 			})}
