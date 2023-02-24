@@ -55,3 +55,96 @@ export function checkValidMove({board, from, to} : CheckValidMoveArgs) : boolean
 
     return isMoveValid && isToValid;
 }
+
+export function getKnightTour({knightPosition, boardSize}: GetKnightTourArgs) : number[][]{
+    const [krStart, kcStart] = knightPosition;
+
+    // Copy the starting position of the knight so we can return to it if any attempts fail
+    let kr = krStart;
+    let kc = kcStart;
+
+    // Construct new empty board, with start position marked.
+    let res = Array.from({ length: boardSize }, () =>
+    Array.from({ length: boardSize }, () => 0));
+    res[kr][kc] = 1;
+
+    // Nested function to find the number of available squares for a knight 
+    function getDegree([row, col] : [number, number]) : number {
+        let degree = 0;
+        
+        directions.forEach(([dr, dc]) => {
+            const [nr, nc] = [row + dr, col + dc];
+            // If the new row and col are valid and the board is empty at that point, the knight can potentially go there
+            if (nr >= 0 && nc >= 0 && nr < boardSize && nc < boardSize && res[nr][nc] == 0)
+            {
+                degree++;
+            }
+        })
+        
+        return degree;
+    }
+
+    // Nested function to get the next best move for the knight
+    function getNextMove(): [number, number] {
+        let mindex = -1;
+        let minDegree = Number.MAX_SAFE_INTEGER;
+
+        // Start at a random direction
+        const start = Math.floor(Math.random()*1000) % boardSize;
+        
+        for (let count = 0; count < boardSize; count++){
+            const i = (start + count) % boardSize;
+            const [dr, dc] = directions[i];
+            const [nr, nc] = [kr + dr, kc + dc];
+
+            if (!checkValidMove({board : res, from : [kr, kc], to : [nr, nc]})) continue;
+
+            // Find the move with minimum degree
+            const degree = getDegree([nr, nc]);
+            if (degree < minDegree){
+                minDegree = degree;
+                mindex = i;
+            }
+        }
+
+        // If no moves available, return old position
+        if (mindex === -1)
+        {
+            return [kr, kc];
+        }
+
+        return [kr + directions[mindex][0], kc + directions[mindex][1]];
+    }
+
+    let attempts = 5;
+    // Try to solve this 5 times
+    while (attempts > 0){
+        // Reset the board and knight positions
+        let count = 0;
+        kr = krStart;
+        kc = kcStart;
+        res = Array.from({ length: boardSize }, () =>
+        Array.from({ length: boardSize }, () => 0));
+        res[kr][kc] = 1;
+        
+        for (let i = 1; i < boardSize * boardSize; i++){
+            const [nr, nc] = getNextMove();
+            if (nr === kr && nc === kc){break;}
+            res[nr][nc] = res[kr][kc] + 1;
+            kr = nr;
+            kc = nc;
+            count++;
+        }
+        
+        // If all the squares haven't been covered try again;
+        if (count != 64){
+            attempts--;
+        }
+        else{
+            break;
+        }
+
+    }
+
+    return res;
+}
