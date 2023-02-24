@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@mantine/core";
 import { useDisclosure, useMouse } from "@mantine/hooks";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { getRowColFromString, getStringFromRowCol } from "../../api/algebraNotation";
 import { checkValidMove } from "../../api/knightsTour";
 import ChessSquare from "../ChessSquare/ChessSquare";
@@ -69,8 +69,6 @@ const ChessBoard = (props: ChessBoardProps) => {
 			cols={props.boardSize}
 			spacing={0}
 			verticalSpacing={0}
-			ref={ref}
-			onClick={handleGridClick}
 			className={classes.root}
 		>
 			{board.flat().map((_, i) => {
