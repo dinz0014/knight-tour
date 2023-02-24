@@ -32,11 +32,16 @@ const ChessBoard = (props: ChessBoardProps) => {
 	const handleGridClick: React.MouseEventHandler<HTMLDivElement> = () => {
 		const col = Math.floor(x / sqrSize);
 		const row = Math.floor(y / sqrSize);
+		const [kr, kc] = knightPosition;
 
 		if (knightSelected) {
+			// Allows user to click on the knight multiple times without encountering warnings.
+			if (kr == row && kc === col) return;
+
 			if (checkValidMove({ board, from: knightPosition, to: [row, col] })) {
 				const newBoard = [...board];
-				newBoard[row][col] = -1;
+
+				newBoard[row][col] = board[kr][kc] + 1;
 				setBoard(newBoard);
 				setKnightLocation(getStringFromRowCol(row, col));
 			} else {
@@ -47,7 +52,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 			return;
 		}
 
-		if (row !== knightPosition[0] || col !== knightPosition[1]) {
+		if (row !== kr || col !== kc) {
 			return;
 		}
 
@@ -76,6 +81,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 							Math.floor(i / props.boardSize) === knightPosition[0] &&
 							i % props.boardSize === knightPosition[1]
 						}
+						knightSelected={knightSelected}
 					/>
 				);
 			})}
