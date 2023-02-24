@@ -22,11 +22,12 @@ const ChessBoard = (props: ChessBoardProps) => {
 	const [knightLocation, setKnightLocation] = useState<string>("a" + props.boardSize);
 	const [knightSelected, setKnightSelected] = useState<boolean>(false);
 
+	const boardRef = useRef<HTMLDivElement>(null);
+
 	// Memoise the current knight position
 	const knightPosition = useMemo(() => getRowColFromString(knightLocation), [knightLocation]);
 
 	// Get coordinates of mouse position within the ref element
-	const { ref, x, y } = useMouse();
 	const sqrSize = props.maxSize / props.boardSize;
 
 	const makeMove = (r: number, c: number) => {
@@ -42,21 +43,29 @@ const ChessBoard = (props: ChessBoardProps) => {
 		}
 	};
 
-			handlers.close();
-			return;
-		}
-
-		if (row !== knightPosition[0] || col !== knightPosition[1]) {
-			return;
-		}
-
-		handlers.open();
-	};
-
 	const { classes } = useStyles(props);
+
+	// Handling clicking outside of the board component
+	useEffect(() => {
+		// Function to handle click events
+		function handleClickOutside(event: MouseEvent) {
+			if (boardRef.current && !boardRef.current.contains(event.target as Node)) {
+				setKnightSelected(false); // Click occurred outside of component, toggle knightSelected
+			}
+		}
+
+		// Add event listener to document object
+		document.addEventListener("click", handleClickOutside);
+
+		// Clean up event listener when component is unmounted
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [boardRef]);
 
 	return (
 		<SimpleGrid
+			ref={boardRef}
 			cols={props.boardSize}
 			spacing={0}
 			verticalSpacing={0}
