@@ -3,4 +3,7 @@ export interface ChessSquareProps {
 	sqrCol: number;
 	sqrSize: number;
 	containsKnight: boolean;
+	knightSelected: boolean;
+	makeMove: (r: number, c: number) => void;
+	setKnightSelected: (prevSelected: boolean) => void;
 }
