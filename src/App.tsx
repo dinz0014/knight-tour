@@ -5,7 +5,6 @@ import { CustomFonts } from "./fonts/CustomFonts";
 
 function App() {
 	const theme = useMantineTheme();
-	console.log(theme.colors.backdropColor[theme.fn.primaryShade()]);
 
 	return (
 		<>
