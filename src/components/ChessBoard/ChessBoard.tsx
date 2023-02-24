@@ -78,6 +78,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 							Math.floor(i / props.boardSize) === knightPosition[0] &&
 							i % props.boardSize === knightPosition[1]
 						}
+						knightSelected={knightSelected}
 					/>
 				);
 			})}
