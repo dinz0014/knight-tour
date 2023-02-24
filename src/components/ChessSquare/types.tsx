@@ -3,4 +3,5 @@ export interface ChessSquareProps {
 	sqrCol: number;
 	sqrSize: number;
 	containsKnight: boolean;
+	knightSelected: boolean;
 }
