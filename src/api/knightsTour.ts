@@ -13,7 +13,7 @@ interface GetKnightTourArgs {
     knightPosition: [number, number];
     boardSize: number;
 }
-    const directions = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]];
+const directions = [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]];
 
 /**
  * Function to get the valid moves for the knight from its current position
