@@ -85,6 +85,7 @@ const ChessBoard = (props: ChessBoardProps) => {
 						knightSelected={knightSelected}
 						makeMove={makeMove}
 						setKnightSelected={setKnightSelected}
+
 					/>
 				);
 			})}

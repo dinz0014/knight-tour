@@ -1,0 +1,2 @@
+# Knight Tour
+This project implements a simple web app to play a game of Knight's Tour. The aim of the game is to start with only a Knight on an empty chess board, and visit all the squares. You cannot visit squares that you have already visited before. The web application also comes with the additional feature of opting to look at a solution. It will also provide hints on where the knight can go if a user wishes.
